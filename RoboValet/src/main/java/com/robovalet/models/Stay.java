@@ -7,8 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Employee {
-
+public class Stay {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -17,4 +16,5 @@ public class Employee {
 	private Date createdAt;
 	
 	private Date updatedAt;
+
 }
