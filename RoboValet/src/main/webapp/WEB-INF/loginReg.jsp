@@ -21,13 +21,13 @@
 						<form:form action="/login" method="post" modelAttribute="loginUser">
 						<p>
 							<form:label path="userName" class="form-label">Username</form:label>
-							<form:errors path="userName" />
-							<form:input class="form-control" path="userName" />
+							<form:errors path="userName" class="red-letters"/>
+							<form:input class="form-control" path="userName" required="required"/>
 						</p>
 						<p>
 							<form:label path="password" class="form-label">Password</form:label>
-							<form:errors path="password" />
-							<form:password class="form-control" path="password"/>
+							<form:errors path="password" class="red-letters"/>
+							<form:password class="form-control" path="password" required="required"/>
 						</p>
 						<form:button class="btn btn-primary">Sign In</form:button>
 
@@ -37,18 +37,18 @@
 						<form:form action="/register" method="post" modelAttribute="newUser">
 						<p>
 							<form:label path="userName" class="form-label">Username</form:label>
-							<form:errors path="userName" />
-							<form:input class="form-control" path="userName" />
+							<form:errors path="userName" class="red-letters" />
+							<form:input class="form-control" path="userName" required="required"/>
 						</p>
 						<p>
 							<form:label path="passwordString" class="form-label">Password</form:label>
-							<form:errors path="passwordString" />
-							<form:password class="form-control" path="passwordString"/>
+							<form:errors path="passwordString" class="red-letters"/>
+							<form:password class="form-control" path="passwordString" required="required"/>
 						</p>
 						<p>
 							<form:label path="confirmPassword" class="form-label">Confirm Password</form:label>
-							<form:errors path="confirmPassword" />
-							<form:password class="form-control" path="confirmPassword"/>
+							<form:errors path="confirmPassword" class="red-letters"/>
+							<form:password class="form-control" path="confirmPassword" required="required"/>
 						</p>
 						
 						<form:button class="btn btn-primary">Register!</form:button>

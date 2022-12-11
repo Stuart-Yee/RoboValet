@@ -9,12 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="users")
@@ -29,6 +30,7 @@ public class User {
 	
 	private Date updatedAt;
 	
+	@Size(min = 3, max = 15)
 	private String userName; //should be an email
 	
 	private String passwordHash;
