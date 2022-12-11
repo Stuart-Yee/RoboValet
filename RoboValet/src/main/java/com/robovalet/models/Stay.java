@@ -17,6 +17,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name="stays")
 public class Stay {
+	enum Status {
+		PARKING,
+		PARKED,
+		REQUESTED,
+		FETCHING,
+		READY,
+		DELIVERED
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -33,6 +42,20 @@ public class Stay {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="employee_id", updatable = true)
 	private Employee employee;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="car_id", updatable = true)
+	private Car car;
+	
+	private Status status;
+	
+	private Date checkInTime;
+	
+	private Date statusChange;
+	
+	private Date checkOutTime;
+	
+	private String notes;
 	
 	public Stay() {}
 	
@@ -68,6 +91,70 @@ public class Stay {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Date getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(Date checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public Date getStatusChange() {
+		return statusChange;
+	}
+
+	public void setStatusChange(Date statusChange) {
+		this.statusChange = statusChange;
+	}
+
+	public Date getCheckOutTime() {
+		return checkOutTime;
+	}
+
+	public void setCheckOutTime(Date checkOutTime) {
+		this.checkOutTime = checkOutTime;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 	
