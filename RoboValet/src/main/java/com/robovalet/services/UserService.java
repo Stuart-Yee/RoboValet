@@ -1,5 +1,6 @@
 package com.robovalet.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.Optional;
@@ -62,5 +63,9 @@ public class UserService {
                 return null;
             }
         }
+    }
+    
+    public ArrayList<User> getUnassignedUsers() {
+    	return userRepository.findByEmployeeIsNullAndCustomerIsNull();
     }
 }
