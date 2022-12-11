@@ -1,0 +1,16 @@
+#main {
+	display: flex;
+	border-radius: 10px;
+	background-color: lightskyblue;
+	justify-content: center;
+	align-items: evenly-spaced;
+}
+
+.jstl-form {
+	padding: 5px;
+	width: 400px;
+}
+
+.red-letters {
+	color: red;
+}
