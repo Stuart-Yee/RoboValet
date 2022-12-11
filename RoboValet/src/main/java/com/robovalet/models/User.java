@@ -21,6 +21,12 @@ import javax.validation.constraints.Size;
 @Table(name="users")
 public class User {
 	
+	public enum Permission {
+		REGULAR,
+		STAFF,
+		SUPER
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -30,7 +36,7 @@ public class User {
 	
 	private Date updatedAt;
 	
-	@Size(min = 3, max = 15)
+	@Size(min = 3, max = 40)
 	private String userName; //should be an email
 	
 	private String passwordHash;
@@ -50,6 +56,10 @@ public class User {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
 	private Employee employee;
+	
+	private Permission permission;
+	
+	private Boolean employeeEnabled;
 	
 	public User() {}
 	
@@ -141,6 +151,22 @@ public class User {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public Permission getPermission() {
+		return permission;
+	}
+
+	public void setPermission(Permission permission) {
+		this.permission = permission;
+	}
+
+	public Boolean getEmployeeEnabled() {
+		return employeeEnabled;
+	}
+
+	public void setEmployeeEnabled(Boolean employeeEnabled) {
+		this.employeeEnabled = employeeEnabled;
 	}
 	
 	

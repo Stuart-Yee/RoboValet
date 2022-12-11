@@ -49,9 +49,12 @@ public class LoginController {
 			model.addAttribute("newUser", new User());
 			return "loginReg.jsp";
 		}
-		
+		// Login success
 		session.setAttribute("id", user.getId());
 		System.out.println(loginUser.getUserName());
+		String perm = user.getPermission().toString();
+		System.out.println(perm=="SUPER");
+		
 		return "redirect:/login";
 	}
 	
@@ -60,7 +63,8 @@ public class LoginController {
 			@Valid
 			@ModelAttribute("newUser") User newUser,
 			BindingResult result,
-			Model model
+			Model model,
+			HttpSession session
 			) {
 		uVal.validate(newUser, result);
 		if (result.hasErrors()) {
@@ -68,8 +72,9 @@ public class LoginController {
 			model.addAttribute("loginUser", blankUser);
 			return "loginReg.jsp";
 		}
-		uServ.registerUser(newUser);
-		return "redirect:/login";
+		User user = uServ.registerUser(newUser);
+		session.setAttribute("id", user.getId());
+		return "redirect:/customers/register";
 	}
 	
 	@RequestMapping("/logout")

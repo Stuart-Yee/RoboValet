@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.robovalet.models.LoginUser;
 import com.robovalet.models.User;
+import com.robovalet.models.User.Permission;
 import com.robovalet.repositories.UserRepository;
 
 
@@ -23,6 +24,8 @@ public class UserService {
     public User registerUser(User user) {
         String hashed = BCrypt.hashpw(user.getPasswordString(), BCrypt.gensalt());
         user.setPasswordHash(hashed);
+        Permission perm = Permission.REGULAR;
+        user.setPermission(perm);
         return userRepository.save(user);
     }
 
