@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.robovalet.models.LoginUser;
 import com.robovalet.models.User;
@@ -69,5 +70,11 @@ public class LoginController {
 		}
 		uServ.registerUser(newUser);
 		return "redirect:/login";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/login";		
 	}
 }

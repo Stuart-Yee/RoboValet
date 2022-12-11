@@ -1,5 +1,7 @@
 package com.robovalet.services;
 
+import java.util.Date;
+
 import java.util.Optional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,8 @@ public class UserService {
         } else {
         // if the passwords match, return true, else, return false
             if(BCrypt.checkpw(loginUser.getPassword(), user.getPasswordHash())) {
+            	user.setLastLoggedIn(new Date());
+            	userRepository.save(user);
                 return user;
             } else {
                 return null;
