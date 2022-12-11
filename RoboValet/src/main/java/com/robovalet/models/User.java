@@ -36,6 +36,9 @@ public class User {
 	@Transient
 	private String passwordString; //Do NOT persist!
 	
+	@Transient
+	private String confirmPassword;
+	
 	private Date lastLoggedIn;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -128,6 +131,14 @@ public class User {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	
 	
