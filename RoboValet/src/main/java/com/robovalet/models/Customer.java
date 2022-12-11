@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="customers")
@@ -30,8 +31,10 @@ public class Customer {
 	
 	private Date updatedAt;
 	
+	@NotNull
 	private String firstName;
 	
+	@NotNull
 	private String lastName;
 	
 	@OneToOne(mappedBy="customer")
@@ -40,7 +43,7 @@ public class Customer {
 	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Car> cars;
 	
-	@OneToMany(mappedBy="Customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Stay> Stays;
 	
 	private String SMSPhone;
