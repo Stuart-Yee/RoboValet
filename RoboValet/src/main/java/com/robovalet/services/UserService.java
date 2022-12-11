@@ -4,6 +4,7 @@ import java.util.Optional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.robovalet.models.LoginUser;
 import com.robovalet.models.User;
 import com.robovalet.repositories.UserRepository;
 
@@ -40,18 +41,18 @@ public class UserService {
     }
     
     // authenticate user
-    public boolean authenticateUser(String userName, String password) {
+    public User authenticateUser(LoginUser loginUser) {
         // first find the user by email
-        User user = userRepository.findByUserName(userName);
+        User user = userRepository.findByUserName(loginUser.getUserName());
         // if we can't find it by email, return false
         if(user == null) {
-            return false;
+            return null;
         } else {
         // if the passwords match, return true, else, return false
-            if(BCrypt.checkpw(password, user.getPasswordHash())) {
-                return true;
+            if(BCrypt.checkpw(loginUser.getPassword(), user.getPasswordHash())) {
+                return user;
             } else {
-                return false;
+                return null;
             }
         }
     }

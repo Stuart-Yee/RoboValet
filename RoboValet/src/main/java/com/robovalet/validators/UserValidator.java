@@ -30,7 +30,7 @@ public class UserValidator implements Validator {
         }   
         
         if (uServ.findByUserName(user.getUserName()) != null) {
-        	errors.rejectValue("email", "Match", "This user already exists");
+        	errors.rejectValue("userName", "Match", "This user already exists");
         }
     }
 }
