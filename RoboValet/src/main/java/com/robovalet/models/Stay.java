@@ -1,9 +1,7 @@
 package com.robovalet.models;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,14 +10,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="cars")
-public class Car {
+@Table(name="stays")
+public class Stay {
+	enum Status {
+		PARKING,
+		PARKED,
+		REQUESTED,
+		FETCHING,
+		READY,
+		DELIVERED
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -28,27 +34,30 @@ public class Car {
 	private Date createdAt;
 	
 	private Date updatedAt;
-	
+	 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="customer_id", updatable = true)
 	private Customer customer;
 	
-	@OneToMany(mappedBy="car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Stay> Stays;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="employee_id", updatable = true)
+	private Employee employee;
 	
-	private String make;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="car_id", updatable = true)
+	private Car car;
 	
-	private String model;
+	private Status status;
 	
-	private String year;
+	private Date checkInTime;
 	
-	private String plate;
+	private Date statusChange;
 	
-	private String color;
+	private Date checkOutTime;
 	
 	private String notes;
 	
-	public Car() {}
+	public Stay() {}
 	
 	@PrePersist
 	protected void onCreate() {
@@ -92,44 +101,52 @@ public class Car {
 		this.customer = customer;
 	}
 
-	public String getMake() {
-		return make;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setMake(String make) {
-		this.make = make;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
-	public String getModel() {
-		return model;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
-	public String getYear() {
-		return year;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setYear(String year) {
-		this.year = year;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
-	public String getPlate() {
-		return plate;
+	public Date getCheckInTime() {
+		return checkInTime;
 	}
 
-	public void setPlate(String plate) {
-		this.plate = plate;
+	public void setCheckInTime(Date checkInTime) {
+		this.checkInTime = checkInTime;
 	}
 
-	public String getColor() {
-		return color;
+	public Date getStatusChange() {
+		return statusChange;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
+	public void setStatusChange(Date statusChange) {
+		this.statusChange = statusChange;
+	}
+
+	public Date getCheckOutTime() {
+		return checkOutTime;
+	}
+
+	public void setCheckOutTime(Date checkOutTime) {
+		this.checkOutTime = checkOutTime;
 	}
 
 	public String getNotes() {
@@ -139,8 +156,6 @@ public class Car {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	
-	
 	
 	
 
