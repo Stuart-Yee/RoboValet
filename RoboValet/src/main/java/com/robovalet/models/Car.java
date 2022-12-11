@@ -30,6 +30,18 @@ public class Car {
 	@JoinColumn(name="customer_id", updatable = true)
 	private Customer customer;
 	
+	private String make;
+	
+	private String model;
+	
+	private String year;
+	
+	private String plate;
+	
+	private String color;
+	
+	private String notes;
+	
 	public Car() {}
 	
 	@PrePersist
@@ -72,6 +84,54 @@ public class Car {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public String getMake() {
+		return make;
+	}
+
+	public void setMake(String make) {
+		this.make = make;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getPlate() {
+		return plate;
+	}
+
+	public void setPlate(String plate) {
+		this.plate = plate;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 	
