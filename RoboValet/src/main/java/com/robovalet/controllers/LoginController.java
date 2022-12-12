@@ -54,6 +54,9 @@ public class LoginController {
 		System.out.println(loginUser.getUserName());
 		String perm = user.getPermission().toString();
 		System.out.println(perm=="SUPER");
+		if(perm=="SUPER") {
+			return "redirect:/admin";
+		}
 		
 		return "redirect:/login";
 	}

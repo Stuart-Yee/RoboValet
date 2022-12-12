@@ -18,6 +18,11 @@
 <body>
 	<div class="container">
 <h1>RoboValet</h1>
+<c:choose>
+	<c:when test="${sessionScope.id != null }">
+	<a href="/logout">Logout</a>
+	</c:when>
+</c:choose>
 
 
 		<hr>
