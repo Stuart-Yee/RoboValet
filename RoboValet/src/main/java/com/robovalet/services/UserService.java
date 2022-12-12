@@ -5,21 +5,30 @@ import java.util.Date;
 
 import java.util.Optional;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.robovalet.models.Customer;
+import com.robovalet.models.Employee;
 import com.robovalet.models.LoginUser;
 import com.robovalet.models.User;
 import com.robovalet.models.User.Permission;
+import com.robovalet.repositories.CustomerRepository;
+import com.robovalet.repositories.EmployeeRepository;
 import com.robovalet.repositories.UserRepository;
 
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
-    
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+	
+	@Autowired
+    UserRepository userRepository;
+	
+	@Autowired
+	CustomerRepository cRepo;
+	
+	@Autowired
+	EmployeeRepository eRepo;
     
     // register user and hash their password
     public User registerUser(User user) {
@@ -68,4 +77,24 @@ public class UserService {
     public ArrayList<User> getUnassignedUsers() {
     	return userRepository.findByEmployeeIsNullAndCustomerIsNull();
     }
+    
+    public void linkCustomer(User user, Customer customer) {
+    	user.setCustomer(customer);
+    	customer.setUser(user);
+    	userRepository.save(user);
+    	cRepo.save(customer);
+    }
+    
+    public void linkEmployee(User user, Employee employee) {
+    	user.setEmployee(employee);
+    	employee.setUser(user);
+    	userRepository.save(user);
+    	eRepo.save(employee);
+    }
+    
+    public void deleteUser(User user) {
+    	userRepository.delete(user);
+    }
+    
+    
 }

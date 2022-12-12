@@ -17,6 +17,53 @@
 <body>
 <t:mainTemplate>
 	<h2>Admin Stuff</h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Link Customer</th>
+				<th>Link Employee</th>
+				<th>Delete User</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${unassignedUsers}" var="user">
+				<tr>
+					<td>${user.userName}</td>
+					<td>
+						<form action="/users/link/customer" method="post">
+							<input type="hidden" name="userId" value="${user.id}">
+							<select name="customerId">
+								<c:forEach items="${unassignedCustomers}" var="customer">
+									<option value="${customer.id}">${customer.firstName} ${customer.lastName}</option>
+								</c:forEach>
+							
+							</select>
+							<button class="btn btn-primary">Link</button>
+						</form>
+					</td>
+					<td>
+						<form action="/users/link/employee" method="post">
+							<input type="hidden" name="userId" value="${user.id}">
+							<select name="customerId">
+								<c:forEach items="${unassignedEmployees}" var="employee">
+									<option value="${employee.id}">${employee.firstName} ${employee.lastName}</option>
+								</c:forEach>
+							
+							</select>
+							<button class="btn btn-primary">Link</button>
+						</form>
+					</td>
+					<td>
+						<form action="/users/delete" method="post">
+							<input type="hidden" name="userId" value="${user.id}">
+							<button class="btn btn-danger">Delete</button>
+						</form>
+					<td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 </t:mainTemplate>
 
 
