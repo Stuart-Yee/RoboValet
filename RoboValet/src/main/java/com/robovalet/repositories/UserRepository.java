@@ -12,4 +12,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	User findByUserName(String search);
 	
 	ArrayList<User> findByEmployeeIsNullAndCustomerIsNull();
+	
+	ArrayList<User> findByEmployeeEnabledTrueAndEmployeeIsNull();
+	
+	ArrayList<User> findByEmployeeIsNotNull();
+	
+	ArrayList<User> findByEmployeeEnabledFalseOrEmployeeEnabledIsNull();
+	
+	
 }

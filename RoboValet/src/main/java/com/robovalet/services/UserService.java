@@ -36,6 +36,7 @@ public class UserService {
         user.setPasswordHash(hashed);
         Permission perm = Permission.REGULAR;
         user.setPermission(perm);
+        user.setEmployeeEnabled(false);
         return userRepository.save(user);
     }
 
@@ -94,6 +95,19 @@ public class UserService {
     
     public void deleteUser(User user) {
     	userRepository.delete(user);
+    }
+    
+    public ArrayList<User> findToRegisterAsEmployees(){
+    	return userRepository.findByEmployeeEnabledTrueAndEmployeeIsNull();
+    }
+    
+    public ArrayList<User> findNotEmployeeEnabled() {
+    	return userRepository.findByEmployeeEnabledFalseOrEmployeeEnabledIsNull();
+    }
+    
+    public void enableAsEmployee(User user) {
+    	user.setEmployeeEnabled(true);
+    	userRepository.save(user);
     }
     
     
