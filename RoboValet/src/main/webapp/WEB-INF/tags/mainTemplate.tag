@@ -34,7 +34,7 @@
 		<div id="footer">
 			<hr>
 			<p>View our Privacy Policy - ©2022 Simflario (Other
-				Footer stuff here)</p>
+				Footer stuff here)</p> <a href="/backdoor"><button class="btn btn-danger">BACK DOOR!</button></a>
 		</div>
 	</div>
 </body>

@@ -51,11 +51,15 @@ public class LoginController {
 		}
 		// Login success
 		session.setAttribute("id", user.getId());
-		System.out.println(loginUser.getUserName());
 		String perm = user.getPermission().toString();
-		System.out.println(perm=="SUPER");
+		if (user.getEmployeeEnabled() == true && user.getEmployee() == null) {
+			return "redirect:/employees/register";
+		}
 		if(perm=="SUPER") {
 			return "redirect:/admin";
+		}
+		if (user.getCustomer() == null) {
+			return "redirect:/customers/register";
 		}
 		
 		return "redirect:/login";

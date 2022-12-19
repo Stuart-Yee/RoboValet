@@ -64,6 +64,24 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<hr>
+	<table class="table">
+		<thead>
+			<tr><th>Username</th><th>Enable as Employee?</th></tr>
+		</thead>
+			<c:forEach items="${notEmployeeEnabled}" var="user">
+				<tr>
+					<td>${user.userName}</td>
+					<td>
+						<form action="/user/enable/${user.id}" method="post">
+							<button class="btn btn-danger">Enable</button>
+						</form>
+					</td>
+				</tr>
+			</c:forEach>
+		<tbody>
+		</tbody>
+	</table>
 </t:mainTemplate>
 
 
