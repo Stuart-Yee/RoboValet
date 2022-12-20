@@ -11,5 +11,11 @@ import com.robovalet.models.Customer;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	
 	ArrayList<Customer> findByUserIsNull();
+	
+	ArrayList<Customer> findBySMSPhone(String phone);
+	
+	ArrayList<Customer> findByLastNameAndFirstName(String last, String first);
+	
+	ArrayList<Customer> findByLastName(String last);
 
 }
