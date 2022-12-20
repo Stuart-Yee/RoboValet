@@ -24,7 +24,7 @@ public class CustomerService {
 		newCustomer.setUser(user);
 		user.setCustomer(newCustomer);
 		uRepo.save(user);
-		return cRepo.save(newCustomer);
+		return newCustomer;
 	}
 	
 	public Customer findById(Long id) {
@@ -38,6 +38,24 @@ public class CustomerService {
 	
 	public ArrayList<Customer> getUnassigned() {
 		return cRepo.findByUserIsNull();
+	}
+	
+	public ArrayList<Customer> customerSearch(Customer customerInfo) {
+		//The Customer object customerInfo is not persisted and is just a temp
+		//object to hold customer information
+		ArrayList<Customer> byPhone = cRepo.findBySMSPhone(customerInfo.getSMSPhone());
+		ArrayList<Customer> byFirstAndLastNames = cRepo.findByLastNameAndFirstName(
+				customerInfo.getLastName(), 
+				customerInfo.getFirstName()
+				);
+		ArrayList<Customer> byLastName = cRepo.findByLastName(customerInfo.getLastName());
+		ArrayList<Customer> possibleCustomers = new ArrayList<Customer>();
+		possibleCustomers.addAll(byPhone);
+		possibleCustomers.addAll(byFirstAndLastNames);
+		possibleCustomers.addAll(byLastName);
+		//TODO Remove duplicates by ID
+		//TODO add search by email
+		return possibleCustomers;
 	}
 
 }
