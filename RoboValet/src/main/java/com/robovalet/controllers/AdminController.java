@@ -33,13 +33,29 @@ public class AdminController {
 	@Autowired
 	EmployeeService eServ;
 	
+	private Boolean checkLogin(HttpSession session) {
+		if (session.getAttribute("id") == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private Boolean isAdminUser(User user) {
+		if (user.getPermission().toString() == "SUPER") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	@GetMapping("/admin")
 	public String toAdmin(HttpSession session, Model model) {
-		if (session.getAttribute("id") == null) {
+		if (! this.checkLogin(session)) {
 			return "redirect:/login";
 		}
 		User user = uServ.findUserById((Long)session.getAttribute("id"));
-		if(user.getPermission().toString() != "SUPER") {
+		if(! this.isAdminUser(user)) {
 			return "redirect:/login";
 		}
 		model.addAttribute("unassignedUsers", uServ.getUnassignedUsers());

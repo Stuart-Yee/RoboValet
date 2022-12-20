@@ -34,6 +34,14 @@ public class LoginController {
 		return "loginReg.jsp";
 	}
 	
+	private Boolean checkLogin(HttpSession session) {
+		if (session.getAttribute("id") == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	@PostMapping("/login")
 	public String login(
 			@Valid 
