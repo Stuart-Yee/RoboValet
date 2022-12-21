@@ -29,6 +29,11 @@ public class CustomerService {
 		return newCustomer;
 	}
 	
+	public Customer registerOrphanCustomer(Customer newCustomer) {
+		cRepo.save(newCustomer);
+		return newCustomer;
+	}
+	
 	public Customer findById(Long id) {
 		Optional<Customer> c = cRepo.findById(id);
 		if(c.isPresent()) {

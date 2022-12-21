@@ -41,11 +41,7 @@
 							<td>${customer.firstName} ${customer.lastName}</td>
 							<td>${customer.SMSPhone }</td>
 							<td>${customer.email }</td>
-							<td>
-								<form action="/checkin/customerSelect/${customer.id}" method="post">
-									<button class="btn btn-warning">Select</button>
-								</form>
-							</td>						
+							<td><button class="btn btn-warning">Select</button></td>						
 						</tr>
 					</c:forEach>
 				</tbody>

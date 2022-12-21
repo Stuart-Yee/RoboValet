@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.robovalet.models.Car;
 import com.robovalet.models.Customer;
 import com.robovalet.services.CustomerService;
 import com.robovalet.services.EmployeeService;
@@ -62,6 +64,31 @@ public class StayController {
 		model.addAttribute("search", custDetails);
 		return "/checkin/selectCustomer.jsp";
 	}
+	
+	@PostMapping("/customer/register")
+	public String newCustomer(HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customerDetails");
+		cServ.registerOrphanCustomer(customer);
+		session.setAttribute("custId", customer.getId());
+		return "redirect:/checkin/car/details";
+	}
+	
+	@PostMapping("/customerSelect/{id}")
+	public String selectExistingCustomer(
+			@PathVariable("id") Long customerId,
+			HttpSession session
+			) {
+		Customer customer = cServ.findById(customerId);
+		session.setAttribute("custId", customerId);
+		return "redirect:/checkin/car/details";
+	}
+	
+	@GetMapping("/car/details")
+	public String carDetails(@ModelAttribute("carDetails") Car carInfo) {
+		//TODO set up model attribute for car details
+		return "/checkin/carDetails.jsp";
+	}
+	
 	
 	//TODO
 	/*
