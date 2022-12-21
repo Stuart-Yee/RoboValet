@@ -58,10 +58,8 @@ public class StayController {
 		}
 		Customer custDetails = (Customer) session.getAttribute("customerDetails");
 		ArrayList<Customer> possibleCustomers = cServ.customerSearch(custDetails);
-		for (Customer customer : possibleCustomers) {
-			System.out.println(customer.getId());
-			System.out.println(customer.getFirstName()+customer.getLastName());
-		}
+		model.addAttribute("possibleCustomers", possibleCustomers);
+		model.addAttribute("search", custDetails);
 		return "/checkin/selectCustomer.jsp";
 	}
 	

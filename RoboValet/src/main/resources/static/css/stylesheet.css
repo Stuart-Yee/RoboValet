@@ -4,6 +4,7 @@
 	background-color: lightskyblue;
 	justify-content: center;
 	align-items: evenly-spaced;
+	padding: 5px;
 }
 
 .jstl-form {

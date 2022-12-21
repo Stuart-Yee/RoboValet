@@ -1,7 +1,9 @@
 package com.robovalet.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,20 @@ public class CustomerService {
 		return cRepo.findByUserIsNull();
 	}
 	
+	public ArrayList<Customer> getUniques(
+			ArrayList<Customer> customers,
+			Set<Long> ids
+			) {
+		ArrayList<Customer> returnList = new ArrayList<Customer>();
+		for (Customer c: customers) {
+			if (!ids.contains(c.getId())) {
+				ids.add(null);
+				returnList.add(c);
+			}
+		}
+		return returnList;
+	}
+	
 	public ArrayList<Customer> customerSearch(Customer customerInfo) {
 		//The Customer object customerInfo is not persisted and is just a temp
 		//object to hold customer information
@@ -51,8 +67,12 @@ public class CustomerService {
 		ArrayList<Customer> byLastName = cRepo.findByLastName(customerInfo.getLastName());
 		ArrayList<Customer> possibleCustomers = new ArrayList<Customer>();
 		possibleCustomers.addAll(byPhone);
-		possibleCustomers.addAll(byFirstAndLastNames);
-		possibleCustomers.addAll(byLastName);
+		Set<Long> ids = new HashSet<Long>();
+		for (Customer c: possibleCustomers) {
+			ids.add(c.getId());
+		}
+		possibleCustomers.addAll(this.getUniques(byFirstAndLastNames, ids));
+		possibleCustomers.addAll(this.getUniques(byLastName, ids));
 		//TODO Remove duplicates by ID
 		//TODO add search by email
 		return possibleCustomers;

@@ -17,13 +17,36 @@
 <body>
 <t:mainTemplate>
 	<div id="main">
-		<h2>Customer Details</h2>
-			<div id="registration" class="jstl-form">
-<hr>
-<h3>Array of possible customers to go here</h3>
-						<hr>
-						
-					<a href="/logout"><button class="btn btn-warning">Do this Later</button></a>
+		<div id="searchResults">
+			<h3>Search Details</h3>
+			<table class="table">
+				<tr><td>First Name:</td><td>${search.firstName }</td></tr>
+				<tr><td>Last Name:</td><td>${search.lastName }</td></tr>
+				<tr><td>Phone:</td><td>${search.SMSPhone }</td></tr>
+				<tr><td>Email:</td><td>${search.email }</td></tr>
+			</table>
+			<h3>Matches...</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Phone</th>
+						<th>Email</th>
+						<td>Select</td>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${possibleCustomers }" var="customer">
+						<tr>
+							<td>${customer.firstName} ${customer.lastName}</td>
+							<td>${customer.SMSPhone }</td>
+							<td>${customer.email }</td>
+							<td><button class="btn btn-warning">Select</button></td>						
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<a href="/checkin/customer/register"><button class="btn btn-success">Register New Customer</button></a>
 		</div>
 	</div>
 
