@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.robovalet.models.Car;
 import com.robovalet.models.Customer;
+import com.robovalet.services.CarService;
 import com.robovalet.services.CustomerService;
 import com.robovalet.services.EmployeeService;
+import com.robovalet.services.StayService;
 
 @Controller
 @RequestMapping("/checkin")
@@ -30,9 +32,11 @@ public class StayController {
 	@Autowired
 	CustomerService cServ;
 
-//TODO
-//	@Autowired
-//	CarService carServ;
+	@Autowired
+	CarService carServ;
+	
+	@Autowired
+	StayService sServ;
 	
 	@GetMapping("/customer")
 	public String getCustomerDetails(
@@ -78,7 +82,6 @@ public class StayController {
 			@PathVariable("id") Long customerId,
 			HttpSession session
 			) {
-		Customer customer = cServ.findById(customerId);
 		session.setAttribute("custId", customerId);
 		return "redirect:/checkin/car/details";
 	}
