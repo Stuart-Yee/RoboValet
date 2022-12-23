@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="stays")
 public class Stay {
-	enum Status {
+	public enum Status {
 		PARKING,
 		PARKED,
 		REQUESTED,

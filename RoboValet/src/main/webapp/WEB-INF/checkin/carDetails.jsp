@@ -46,17 +46,16 @@
 							<form:input class="form-control" path="color" required="required"/>  
 						</p>
 						<p>
-							<form:label path="notes" class="form-label">Color</form:label>
+							<form:label path="notes" class="form-label">Notes:</form:label>
 							<form:errors path="notes" class="red-letters"/>
 							<form:textarea class="form-control" path="notes"/>  
 						</p>
 						
 						
 						
-						<form:button class="btn btn-primary">Find Customer</form:button>
+						<form:button class="btn btn-primary">Find Vehicle</form:button>
 
 					</form:form>
-					<a href="/logout"><button class="btn btn-warning">Do this Later</button></a>
 		</div>
 	</div>
 

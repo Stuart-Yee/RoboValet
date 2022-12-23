@@ -18,10 +18,14 @@
 <body>
 	<div class="container">
 <h1>RoboValet</h1>
+<a href="/checkin/customer">Check In</a> | <a href="#">Active Vehicles</a>
 <c:choose>
 	<c:when test="${sessionScope.id != null }">
-	<a href="/logout">Logout</a>
+	| <a href="/logout">Logout</a>
 	</c:when>
+	<c:otherwise>
+	| <a href="/login">Login</a>
+	</c:otherwise>
 </c:choose>
 
 

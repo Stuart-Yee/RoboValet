@@ -20,36 +20,44 @@
 		<div id="searchResults">
 			<h3>Search Details</h3>
 			<table class="table">
-				<tr><td>First Name:</td><td>${search.firstName }</td></tr>
-				<tr><td>Last Name:</td><td>${search.lastName }</td></tr>
-				<tr><td>Phone:</td><td>${search.SMSPhone }</td></tr>
-				<tr><td>Email:</td><td>${search.email }</td></tr>
+				<tr><td>Plate:</td><td>${carInfo.plate }</td></tr>
+				<tr><td>Make:</td><td>${carInfo.make}</td></tr>
+				<tr><td>Model:</td><td>${carInfo.model }</td></tr>
+				<tr><td>Year:</td><td>${carInfo.year }</td></tr>
+				<tr><td>Color:</td><td>${carInfo.color }</td></tr>
 			</table>
 			<h3>Matches...</h3>
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Phone</th>
-						<th>Email</th>
-						<td>Select</td>
+						<th>Plate</th>
+						<th>Make</th>
+						<th>Model</th>
+						<td>Year</td>
+						<td>Color</td>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${possibleCustomers }" var="customer">
+					<c:forEach items="${results }" var="car">
 						<tr>
-							<td>${customer.firstName} ${customer.lastName}</td>
-							<td>${customer.SMSPhone }</td>
-							<td>${customer.email }</td>
-							<td><button class="btn btn-warning">Select</button></td>						
+							<td>${car.plate}</td>
+							<td>${car.make }</td>
+							<td>${car.model }</td>
+							<td>${car.year }</td>
+							<td>${car.color }</td>
+							<td>
+								<form action="/checkin/car/select/${car.id}" method="post">
+									<button class="btn btn-warning">Select</button>
+								</form>
+							</td>						
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-			<form action="/checkin/customer/register" method="post">
-				<button class="btn btn-success">Register New Customer</button>
+			<form action="/checkin/car/register" method="post">
+				<button class="btn btn-success">Register New Car</button>
 			</form>
-			<a href="/checkin/customer"><button class="btn btn-secondary">Back</button></a>
+			<a href="/checkin/car"><button class="btn btn-secondary">Back</button></a>
 		</div>
 	</div>
 

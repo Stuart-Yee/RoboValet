@@ -18,6 +18,14 @@ public class CarService {
 	@Autowired
 	CarRepository carRepo;
 	
+	public Car findById(Long carId) {
+		if (carRepo.findById(carId).isPresent()) {
+			return carRepo.findById(carId).get();
+		} else {
+			return null;
+		}
+	}
+	
 	public ArrayList<Car> addUnique(
 			ArrayList<Car> carList, 
 			List<Car> customerCarList
@@ -42,6 +50,11 @@ public class CarService {
 		ArrayList<Car> cars = carRepo.findByPlate(carDetails.getPlate());
 		ArrayList<Car> searchResults = this.addUnique(cars, customer.getCars());
 		return searchResults;
+	}
+	
+	public Car register(Car newCar, Customer owner) {
+		newCar.setCustomer(owner);
+		return carRepo.save(newCar);
 	}
 
 }
