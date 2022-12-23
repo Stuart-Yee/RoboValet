@@ -83,7 +83,6 @@ public class UserService {
     	user.setCustomer(customer);
     	customer.setUser(user);
     	userRepository.save(user);
-    	cRepo.save(customer);
     }
     
     public void linkEmployee(User user, Employee employee) {
