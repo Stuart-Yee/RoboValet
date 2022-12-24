@@ -25,7 +25,17 @@ public class StayService {
 		return null;
 	}
 	
-	public void updateStatus(Stay stay, Status status) {
+	public void updateStatus(
+			Stay stay, 
+			Status status,
+			Employee employee,
+			String logs
+			) {
+		if (!(logs == null)) {
+			stay.setLog(logs);
+		}
+		stay.setEmployee(employee);
+		stay.setStatusChange(new Date());
 		stay.setStatus(status);
 		sRepo.save(stay);
 	}

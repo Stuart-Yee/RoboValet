@@ -1,6 +1,7 @@
 package com.robovalet.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -232,18 +233,31 @@ public class StayController {
 			return "redirect:/login";
 		}
 		Stay stay = sServ.findById(stayId);
+		String[] logs = stay.getLog().split("\n");
+		model.addAttribute("logs", logs);
 		model.addAttribute("stay", stay);
 		
 		return "/checkin/viewStay.jsp";
 	}
 	
 	@PostMapping("/stay/{id}/park")
-	public String park(HttpSession session, @PathVariable("id") Long stayId) {
+	public String park(
+			HttpSession session,
+			@PathVariable("id") Long stayId,
+			@RequestParam("location") String location,
+			@RequestParam("notes") String notes
+			) {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.PARKED);
+		String log = stay.getLog() + "\n" + new Date().toString() + ": Parked by " 
+				+ employee.getFirstName() + " " + employee.getLastName() + ". Location: " 
+				+ location + "\n" + notes;
+		System.out.println(log);
+		sServ.updateStatus(stay, Status.PARKED, employee, log);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
@@ -252,8 +266,10 @@ public class StayController {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.REQUESTED);
+		sServ.updateStatus(stay, Status.REQUESTED, employee, null);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
@@ -262,8 +278,10 @@ public class StayController {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.FETCHING);
+		sServ.updateStatus(stay, Status.FETCHING, employee, null);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
@@ -272,8 +290,10 @@ public class StayController {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.READY);
+		sServ.updateStatus(stay, Status.READY, employee, null);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
@@ -282,8 +302,10 @@ public class StayController {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.DELIVERED);
+		sServ.updateStatus(stay, Status.DELIVERED, employee, null);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	

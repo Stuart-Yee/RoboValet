@@ -23,7 +23,10 @@
 			<p>Notes: ${stay.notes }</p>
 			<p>Check In: ${stay.checkInTime}<p>
 			<p>Check Out: ${stay.checkOutTime }<p>
-			<p>Log: ${stay.log }<p>
+			<p>Log:</p>
+			<c:forEach items="${logs }" var="log">
+				<p>${log }</p>
+			</c:forEach>
 		</div>
 		<div>
 			<h3>Customer Details:</h3>
@@ -39,6 +42,35 @@
 			<p>Color: ${stay.car.color}</p>
 		</div>
 
+	</div>
+	<div id="status">
+		<c:choose>
+			<c:when test="${stay.status == 'PARKING' }">
+				<form action="/checkin/stay/${stay.id}/park" method="post">
+					<div class="form-group">
+						<label for="location">Location:</label>
+						<input class="form-control" name="location" id="location"/>
+					</div>
+					<div class="form-group">
+						<label for="notes">Other Notes:</label>
+						<textarea name="notes" class="form-control" id="notes"></textarea>
+					</div>
+					<button class="btn btn-warning">Park Car</button>
+				</form>
+			</c:when>
+			<c:when test="${stay.status == 'REQUESTED' }">
+				<p>Is not parking</p>
+			</c:when>
+			<c:when test="${stay.status == 'FETCHING' }">
+				<p>Is fretc</p>
+			</c:when>
+			<c:when test="${stay.status == 'READY' }">
+				<p>Ready</p>
+			</c:when>
+			<c:when test="${stay.status == 'DELIVERED' }">
+				<p>Is del</p>
+			</c:when>
+		</c:choose>
 	</div>
 	
 
