@@ -47,8 +47,7 @@ public class SMSAPIController {
 	public String customerReady(@RequestBody HashMap<String, Object> request) {
 		String beginning = "<Response><Message>";
 		String end = "</Message></Response>";
-		String message = "Please send the phrase 'READY' if you'd like us"
-				+ " to fetch your vehicle for you.";
+		String message;
 		String sms = (String) request.get("smsNumber");
 		String requestMessage = (String) request.get("content");
 		System.out.println(requestMessage);
@@ -56,8 +55,18 @@ public class SMSAPIController {
 		if (stay == null) {
 			message = "Sorry! Can't find you by " + sms + 
 					". Please send your request from the number you checked in with"
-					+ " or request your vehicle in person at the valet stand.";				
-		} else if (requestMessage.equals("READY")) { //TODO change to a contains
+					+ " or request your vehicle in person at the valet stand.";	
+			return beginning + message + end;
+		}
+		switch (stay.getStatus()) {
+		case REQUESTED: message = "We have your request, thank you for your patience!";
+		case FETCHING: message = "The driver is in the car now! Thank you for your patience.";
+		case READY: message = "Your car is ready for you at the valet stand";
+		case DELIVERED: message = "Your car was returned to you on " + stay.getCheckOutTime().toString();
+		default: message = "Please send the phrase 'READY' if you'd like us"
+				+ " to fetch your vehicle for you.";
+		}
+		if (requestMessage.equals("READY") && (stay.getStatus() == Status.PARKING || stay.getStatus() == Status.PARKED)) { //TODO change to a contains
 			message = "We received your request and will let you know when "
 					+ "your vehicle is ready.";
 			sServo.requestVehicle(stay);			
