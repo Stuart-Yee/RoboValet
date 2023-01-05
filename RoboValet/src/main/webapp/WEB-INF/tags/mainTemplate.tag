@@ -13,11 +13,11 @@
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
 
-<title>Ideas</title>
+<title>QuickValet</title>
 </head>
 <body>
 	<div class="container">
-<h1>RoboValet</h1>
+<h1>QuickValet</h1>
 <a href="/checkin/customer">Check In</a> | <a href="#">Active Vehicles</a>
 <c:choose>
 	<c:when test="${sessionScope.id != null }">
