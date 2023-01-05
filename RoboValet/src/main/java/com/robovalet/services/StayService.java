@@ -25,6 +25,21 @@ public class StayService {
 		return null;
 	}
 	
+	public void updateStatus(
+			Stay stay, 
+			Status status,
+			Employee employee,
+			String logs
+			) {
+		if (!(logs == null)) {
+			stay.setLog(logs);
+		}
+		stay.setEmployee(employee);
+		stay.setStatusChange(new Date());
+		stay.setStatus(status);
+		sRepo.save(stay);
+	}
+	
 	public Stay register(Customer customer, Car car, Employee employee, String notes) {
 		Date now = new Date ();
 		Stay newStay = new Stay();

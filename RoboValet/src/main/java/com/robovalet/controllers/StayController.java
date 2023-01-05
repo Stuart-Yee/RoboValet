@@ -1,6 +1,7 @@
 package com.robovalet.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.robovalet.models.*;
+import com.robovalet.models.Stay.Status;
 import com.robovalet.services.CarService;
 import com.robovalet.services.CustomerService;
 import com.robovalet.services.EmployeeService;
@@ -231,22 +233,80 @@ public class StayController {
 			return "redirect:/login";
 		}
 		Stay stay = sServ.findById(stayId);
+		String[] logs = stay.getLog().split("\n");
+		model.addAttribute("logs", logs);
 		model.addAttribute("stay", stay);
 		
 		return "/checkin/viewStay.jsp";
 	}
 	
+	@PostMapping("/stay/{id}/park")
+	public String park(
+			HttpSession session,
+			@PathVariable("id") Long stayId,
+			@RequestParam("location") String location,
+			@RequestParam("notes") String notes
+			) {
+		if (! this.checkEmployee(session)) {
+			return "redirect:/login";
+		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
+		Stay stay = sServ.findById(stayId);
+		String log = stay.getLog() + "\n" + new Date().toString() + ": Parked by " 
+				+ employee.getFirstName() + " " + employee.getLastName() + ". Location: " 
+				+ location + "\n" + notes;
+		System.out.println(log);
+		sServ.updateStatus(stay, Status.PARKED, employee, log);
+		return "redirect:/checkin/stay/view/" + stayId;
+	}
 	
+	@PostMapping("/stay/{id}/request")
+	public String request(HttpSession session, @PathVariable("id") Long stayId) {
+		if (! this.checkEmployee(session)) {
+			return "redirect:/login";
+		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
+		Stay stay = sServ.findById(stayId);
+		sServ.updateStatus(stay, Status.REQUESTED, employee, null);
+		return "redirect:/checkin/stay/view/" + stayId;
+	}
 	
+	@PostMapping("/stay/{id}/fetch")
+	public String fetch(HttpSession session, @PathVariable("id") Long stayId) {
+		if (! this.checkEmployee(session)) {
+			return "redirect:/login";
+		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
+		Stay stay = sServ.findById(stayId);
+		sServ.updateStatus(stay, Status.FETCHING, employee, null);
+		return "redirect:/checkin/stay/view/" + stayId;
+	}
 	
+	@PostMapping("/stay/{id}/ready")
+	public String setReady(HttpSession session, @PathVariable("id") Long stayId) {
+		if (! this.checkEmployee(session)) {
+			return "redirect:/login";
+		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
+		Stay stay = sServ.findById(stayId);
+		sServ.updateStatus(stay, Status.READY, employee, null);
+		return "redirect:/checkin/stay/view/" + stayId;
+	}
 	
-	//TODO
-	/*
-	 * 1) Save customer details as temp Customer object in session
-	 * 2) Use customer info to find existing customer or register new customer
-	 * 3) Enter car info
-	 * 4) Use car info to find or register car
-	 * 5) Create Stay
-	 */
+	@PostMapping("/stay/{id}/deliver")
+	public String deliver(HttpSession session, @PathVariable("id") Long stayId) {
+		if (! this.checkEmployee(session)) {
+			return "redirect:/login";
+		}
+		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
+				.getEmployee();
+		Stay stay = sServ.findById(stayId);
+		sServ.updateStatus(stay, Status.DELIVERED, employee, null);
+		return "redirect:/checkin/stay/view/" + stayId;
+	}
 	
 }
