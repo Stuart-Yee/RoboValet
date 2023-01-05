@@ -59,6 +59,8 @@ public class Stay {
 	
 	private String log;
 	
+	private String smsNumber;
+	
 	public Stay() {}
 	
 	@PrePersist
@@ -165,6 +167,14 @@ public class Stay {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public String getSmsNumber() {
+		return smsNumber;
+	}
+
+	public void setSmsNumber(String smsNumber) {
+		this.smsNumber = smsNumber;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.robovalet.services;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,14 @@ public class StayService {
 	public Stay findById(Long id) {
 		if(sRepo.findById(id).isPresent()) {
 			return sRepo.findById(id).get();
+		}
+		return null;
+	}
+	
+	public Stay findBySMSandStatus(String SMS, Status status) {
+		Optional<Stay> stay = sRepo.findBySmsNumberAndStatus(SMS, status);
+		if (stay.isPresent()) {
+			return stay.get();
 		}
 		return null;
 	}
