@@ -51,15 +51,16 @@ public class SMSAPIController {
 				+ " to fetch your vehicle for you.";
 		String sms = (String) request.get("smsNumber");
 		String requestMessage = (String) request.get("content");
+		System.out.println(requestMessage);
 		Stay stay = sServo.findBySMSandStatus(sms, Status.PARKED);
 		if (stay == null) {
 			message = "Sorry! Can't find you by " + sms + 
 					". Please send your request from the number you checked in with"
 					+ " or request your vehicle in person at the valet stand.";				
-		} else if (requestMessage == "READY") { //TODO change to a contains
+		} else if (requestMessage.equals("READY")) { //TODO change to a contains
 			message = "We received your request and will let you know when "
 					+ "your vehicle is ready.";
-			
+			sServo.requestVehicle(stay);			
 		}
 		return beginning + message + end;
 	}

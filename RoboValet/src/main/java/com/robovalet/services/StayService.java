@@ -34,6 +34,15 @@ public class StayService {
 		return null;
 	}
 	
+	public void requestVehicle(Stay stay) {
+		stay.setStatus(Status.REQUESTED);
+		String logs = stay.getLog();
+		Date now = new Date();
+		logs = logs + "\n" + now.toString() + ": Customer has requested the car via SMS.";
+		stay.setLog(logs);
+		sRepo.save(stay);
+	}
+	
 	public void updateStatus(
 			Stay stay, 
 			Status status,
