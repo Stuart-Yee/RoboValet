@@ -1,5 +1,6 @@
 package com.robovalet.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class StayService {
 		stay.setStatus(Status.REQUESTED);
 		String logs = stay.getLog();
 		Date now = new Date();
+		stay.setStatusChange(now);
 		logs = logs + "\n" + now.toString() + ": Customer has requested the car via SMS.";
 		stay.setLog(logs);
 		sRepo.save(stay);
@@ -55,6 +57,9 @@ public class StayService {
 		stay.setEmployee(employee);
 		stay.setStatusChange(new Date());
 		stay.setStatus(status);
+		if (status == Status.DELIVERED) {
+			stay.setCheckOutTime(new Date());
+		}
 		sRepo.save(stay);
 	}
 	
@@ -74,6 +79,10 @@ public class StayService {
 				);
 		
 		return sRepo.save(newStay);
+	}
+	
+	public ArrayList<Stay> getActiveStays(){
+		return sRepo.findByStatusNotOrderByStatusDesc(Status.DELIVERED);
 	}
 
 }

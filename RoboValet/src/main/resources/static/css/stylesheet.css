@@ -23,3 +23,14 @@
 .red-letters {
 	color: red;
 }
+
+
+
+.stayRow a{
+	color: #333333;
+	text-decoration: none; 
+}
+
+.stayRow a:hover{
+	color: #999999;
+}
