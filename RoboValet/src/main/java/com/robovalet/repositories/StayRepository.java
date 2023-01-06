@@ -2,6 +2,7 @@ package com.robovalet.repositories;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
@@ -13,5 +14,7 @@ import com.robovalet.models.Stay.Status;
 public interface StayRepository extends CrudRepository<Stay, Long> {
 	
 	Optional<Stay> findBySmsNumberAndStatus(String SMS, Status status);
+	
+	ArrayList<Stay> findByStatusNotOrderByStatusDesc(Status status);
 
 }

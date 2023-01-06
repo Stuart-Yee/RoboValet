@@ -58,17 +58,44 @@
 					<button class="btn btn-warning">Park Car</button>
 				</form>
 			</c:when>
+			<c:when test="${stay.status == 'PARKED' }">
+				<form action="/checkin/stay/${stay.id}/request" method="post">
+					<div class="form-group">
+						<label for="notes">Notes:</label>
+						<textarea name="notes" class="form-control" id="notes"></textarea>
+					</div>
+					<button class="btn btn-warning">Set to "Requested"</button>
+				</form>
+			</c:when>
 			<c:when test="${stay.status == 'REQUESTED' }">
-				<p>Is not parking</p>
+				<form action="/checkin/stay/${stay.id}/fetch" method="post">
+					<div class="form-group">
+						<label for="notes">Notes:</label>
+						<textarea name="notes" class="form-control" id="notes"></textarea>
+					</div>
+					<button class="btn btn-warning">Fetch Car</button>
+				</form>
 			</c:when>
 			<c:when test="${stay.status == 'FETCHING' }">
-				<p>Is fretc</p>
+				<form action="/checkin/stay/${stay.id}/ready" method="post">
+					<div class="form-group">
+						<label for="notes">Notes:</label>
+						<textarea name="notes" class="form-control" id="notes"></textarea>
+					</div>
+					<button class="btn btn-warning">Mark Vehicle Ready</button>
+				</form>
 			</c:when>
 			<c:when test="${stay.status == 'READY' }">
-				<p>Ready</p>
+				<form action="/checkin/stay/${stay.id}/deliver" method="post">
+					<div class="form-group">
+						<label for="notes">Notes:</label>
+						<textarea name="notes" class="form-control" id="notes"></textarea>
+					</div>
+					<button class="btn btn-warning">Mark Delivered</button>
+				</form>
 			</c:when>
 			<c:when test="${stay.status == 'DELIVERED' }">
-				<p>Is del</p>
+				<p>Delivered on ${stay.checkOutTime}</p>
 			</c:when>
 		</c:choose>
 	</div>
