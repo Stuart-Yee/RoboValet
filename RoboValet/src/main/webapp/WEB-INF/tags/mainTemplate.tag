@@ -18,7 +18,7 @@
 <body>
 	<div class="container">
 <h1>QuickValet</h1>
-<a href="/checkin/customer">Check In</a> | <a href="#">Active Vehicles</a>
+<a href="/checkin/customer">Check In</a> | <a href="/checkin/active">Active Vehicles</a>
 <c:choose>
 	<c:when test="${sessionScope.id != null }">
 	| <a href="/logout">Logout</a>

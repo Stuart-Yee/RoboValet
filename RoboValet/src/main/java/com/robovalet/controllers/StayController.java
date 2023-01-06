@@ -59,6 +59,14 @@ public class StayController {
 		
 		return true;
 	}
+	@GetMapping("/active")
+	public String getStays(HttpSession session, Model model) {
+		if (! this.checkEmployee(session)) {
+			return "redirect:/login";
+		}
+		model.addAttribute("activeStays", sServ.getActiveStays());
+		return "checkin/activeStays.jsp";
+	}
 	
 	@GetMapping("/customer")
 	public String getCustomerDetails(
@@ -256,56 +264,84 @@ public class StayController {
 		String log = stay.getLog() + "\n" + new Date().toString() + ": Parked by " 
 				+ employee.getFirstName() + " " + employee.getLastName() + ". Location: " 
 				+ location + "\n" + notes;
-		System.out.println(log);
 		sServ.updateStatus(stay, Status.PARKED, employee, log);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
 	@PostMapping("/stay/{id}/request")
-	public String request(HttpSession session, @PathVariable("id") Long stayId) {
+	public String request(
+			HttpSession session, 
+			@PathVariable("id") Long stayId,
+			@RequestParam("notes") String notes
+			) {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
 		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
 				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.REQUESTED, employee, null);
+		String log = stay.getLog() + "\n" + new Date().toString() + ": Set to requested by "
+				+ employee.getFirstName() + " " + employee.getLastName()
+				+ "\n" + notes;
+		sServ.updateStatus(stay, Status.REQUESTED, employee, log);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
 	@PostMapping("/stay/{id}/fetch")
-	public String fetch(HttpSession session, @PathVariable("id") Long stayId) {
+	public String fetch(
+			HttpSession session, 
+			@PathVariable("id") Long stayId,
+			@RequestParam("notes") String notes			
+			) {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
+		System.out.println("Fetching. Notes: " + notes);
 		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
 				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.FETCHING, employee, null);
+		String log = stay.getLog() + "\n" + new Date().toString() +": Fetched by "
+				+ employee.getFirstName() + " " + employee.getLastName()
+				+ "\n" + notes;
+		sServ.updateStatus(stay, Status.FETCHING, employee, log);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
 	@PostMapping("/stay/{id}/ready")
-	public String setReady(HttpSession session, @PathVariable("id") Long stayId) {
+	public String setReady(
+			HttpSession session, 
+			@PathVariable("id") Long stayId,
+			@RequestParam("notes") String notes
+			) {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
 		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
 				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.READY, employee, null);
+		String log = stay.getLog() + "\n" + new Date().toString() + ": Marked ready by "
+				+ employee.getFirstName() + " " + employee.getLastName()
+				+ "\n" + notes;
+		sServ.updateStatus(stay, Status.READY, employee, log);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	
 	@PostMapping("/stay/{id}/deliver")
-	public String deliver(HttpSession session, @PathVariable("id") Long stayId) {
+	public String deliver(
+			HttpSession session, 
+			@PathVariable("id") Long stayId,
+			@RequestParam("notes") String notes
+			) {
 		if (! this.checkEmployee(session)) {
 			return "redirect:/login";
 		}
 		Employee employee = uServ.findUserById((Long) session.getAttribute("id"))
 				.getEmployee();
 		Stay stay = sServ.findById(stayId);
-		sServ.updateStatus(stay, Status.DELIVERED, employee, null);
+		String log = stay.getLog() + "\n" + new Date().toString() +": Delivered by "
+				+ employee.getFirstName() + " " + employee.getLastName()
+				+ "\n" + notes;
+		sServ.updateStatus(stay, Status.DELIVERED, employee, log);
 		return "redirect:/checkin/stay/view/" + stayId;
 	}
 	

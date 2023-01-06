@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="stays")
@@ -57,6 +58,7 @@ public class Stay {
 	
 	private String notes;
 	
+	@Column(length=1000)
 	private String log;
 	
 	private String smsNumber;
