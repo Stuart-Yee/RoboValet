@@ -10,5 +10,5 @@ import com.robovalet.models.Conversation;
 @Repository
 public interface ConversationRepository extends CrudRepository<Conversation, Long> {
 
-	Optional<Conversation> findBySMS(String sms);
+	Optional<Conversation> findBySMSAndClosedAtIsNull(String sms);
 }

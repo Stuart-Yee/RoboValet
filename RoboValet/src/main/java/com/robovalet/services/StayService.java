@@ -85,5 +85,9 @@ public class StayService {
 	public ArrayList<Stay> getActiveStays(){
 		return sRepo.findByStatusNotOrderByStatusDesc(Status.DELIVERED);
 	}
+	
+	public ArrayList<Stay> getActiveStaysBySMS(String SMS) {
+		return sRepo.findBySmsNumberAndStatusNotOrderByStatus(SMS, Status.DELIVERED);
+	}
 
 }

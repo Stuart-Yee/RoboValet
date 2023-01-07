@@ -27,6 +27,14 @@ public class Conversation {
 	 *  sent to the customer.
 	 */
 	
+	public enum Stage {
+		NEW,
+		ASKEDSTAYVERIFICATION,
+		STAYVERIFIED,
+		ASKEDREADYVERIFICATION,
+		CLOSED
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -38,28 +46,24 @@ public class Conversation {
 	
 	private Date closedAt;
 	
-	private Boolean customerVerificationRequested;
-	
-	private Boolean stayVerificationRequested;
-	
 	private String SMS;
-	
-	private Boolean multipleCustomersPossible;
 	
 	private Boolean multipleStaysPossible;
 	
+	private Stage stage;
+	
 	@Column(length=10000)
 	private String chatLog;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="customer_id", updatable = true)
-	private Customer customer;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="stay_id", updatable = true)
 	private Stay stay;
 	
 	public Conversation() {}
+	
+	public Conversation(String sms, Stage stage) {
+		this.SMS = sms;
+	}
 	
 	@PrePersist
 	protected void onCreate() {
@@ -103,36 +107,12 @@ public class Conversation {
 		this.closedAt = closedAt;
 	}
 
-	public Boolean getCustomerVerificationRequested() {
-		return customerVerificationRequested;
-	}
-
-	public void setCustomerVerificationRequested(Boolean customerVerificationRequested) {
-		this.customerVerificationRequested = customerVerificationRequested;
-	}
-
-	public Boolean getStayVerificationRequested() {
-		return stayVerificationRequested;
-	}
-
-	public void setStayVerificationRequested(Boolean stayVerificationRequested) {
-		this.stayVerificationRequested = stayVerificationRequested;
-	}
-
 	public String getSMS() {
 		return SMS;
 	}
 
 	public void setSMS(String sMS) {
 		SMS = sMS;
-	}
-
-	public Boolean getMultipleCustomersPossible() {
-		return multipleCustomersPossible;
-	}
-
-	public void setMultipleCustomersPossible(Boolean multipleCustomersPossible) {
-		this.multipleCustomersPossible = multipleCustomersPossible;
 	}
 
 	public Boolean getMultipleStaysPossible() {
@@ -151,20 +131,20 @@ public class Conversation {
 		this.chatLog = chatLog;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
 	public Stay getStay() {
 		return stay;
 	}
 
 	public void setStay(Stay stay) {
 		this.stay = stay;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 	
 	
