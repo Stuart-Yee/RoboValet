@@ -1,7 +1,9 @@
 package com.robovalet.models;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -47,6 +50,9 @@ public class Stay {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="car_id", updatable = true)
 	private Car car;
+	
+	@OneToMany(mappedBy="stay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Conversation> conversations;
 	
 	private Status status;
 	
@@ -178,7 +184,13 @@ public class Stay {
 	public void setSmsNumber(String smsNumber) {
 		this.smsNumber = smsNumber;
 	}
-	
-	
+
+	public List<Conversation> getConversations() {
+		return conversations;
+	}
+
+	public void setConversations(List<Conversation> conversations) {
+		this.conversations = conversations;
+	}
 
 }

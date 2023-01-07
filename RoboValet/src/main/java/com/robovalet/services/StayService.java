@@ -72,6 +72,7 @@ public class StayService {
 		newStay.setCar(car);
 		newStay.setCheckInTime(now);
 		newStay.setNotes(notes);
+		newStay.setSmsNumber(customer.getSMSPhone());
 		newStay.setLog(
 				now.toString() + ": " + employee.getFirstName() + " " + employee.getLastName() +
 				" checked in this " + car.getModel() + " for " + customer.getFirstName() + " " +

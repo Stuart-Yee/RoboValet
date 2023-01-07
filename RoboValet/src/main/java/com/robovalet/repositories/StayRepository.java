@@ -15,6 +15,8 @@ public interface StayRepository extends CrudRepository<Stay, Long> {
 	
 	Optional<Stay> findBySmsNumberAndStatus(String SMS, Status status);
 	
-	ArrayList<Stay> findByStatusNotOrderByStatusDesc(Status status);
+	ArrayList<Stay> findByStatusNotOrderByStatusDesc(Status notStatus);
+	
+	ArrayList<Stay> findBySmsNumberAndStatusNotOrderByStatus(String sms, Status notStatus);
 
 }

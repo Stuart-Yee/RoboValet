@@ -46,6 +46,9 @@ public class Customer {
 	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Stay> Stays;
 	
+	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Conversation> conversations;
+	
 	private String SMSPhone;
 	
 	private String email;
@@ -160,6 +163,14 @@ public class Customer {
 
 	public void setMarketingPermission(Boolean marketingPermission) {
 		this.marketingPermission = marketingPermission;
+	}
+
+	public List<Conversation> getConversations() {
+		return conversations;
+	}
+
+	public void setConversations(List<Conversation> conversations) {
+		this.conversations = conversations;
 	}
 	
 	
