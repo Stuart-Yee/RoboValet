@@ -80,6 +80,15 @@ public class ConversationService {
 		cRepo.save(conversation);
 	}
 	
+	public Conversation getActive(Stay stay) {
+		ArrayList <Conversation> conversations = cRepo.findByStayAndStageNot(stay, Stage.CLOSED);
+		if (conversations.size() == 1) {
+			return conversations.get(0);
+		} else {
+			return null;
+		}
+	}
+	
 	public HashMap<String, Object> askStayVerification(Conversation conversation) {
 		String message = "I'm sorry, we couldn't find you from this phone number. Please try again from the "
 				+ "phone you used to check in or ask at the valet stand.";

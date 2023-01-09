@@ -2,6 +2,7 @@ package com.robovalet.models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -56,8 +58,8 @@ public class Conversation {
 	@Column(length=10000)
 	private String chatLog;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="stay_id", updatable = true)
+	@OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="stay_id")
 	private Stay stay;
 	
 	public Conversation() {}

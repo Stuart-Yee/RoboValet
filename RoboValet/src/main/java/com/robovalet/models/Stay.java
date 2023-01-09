@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -51,8 +52,8 @@ public class Stay {
 	@JoinColumn(name="car_id", updatable = true)
 	private Car car;
 	
-	@OneToMany(mappedBy="stay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Conversation> conversations;
+	@OneToOne(mappedBy="stay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Conversation conversation;
 	
 	private Status status;
 	
@@ -185,12 +186,12 @@ public class Stay {
 		this.smsNumber = smsNumber;
 	}
 
-	public List<Conversation> getConversations() {
-		return conversations;
+	public Conversation getConversation() {
+		return conversation;
 	}
 
-	public void setConversations(List<Conversation> conversations) {
-		this.conversations = conversations;
+	public void setConversation(Conversation conversation) {
+		this.conversation = conversation;
 	}
 
 }

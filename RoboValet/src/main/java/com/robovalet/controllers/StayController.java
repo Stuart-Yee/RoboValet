@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.robovalet.models.*;
 import com.robovalet.models.Stay.Status;
 import com.robovalet.services.CarService;
+import com.robovalet.services.ConversationService;
 import com.robovalet.services.CustomerService;
 import com.robovalet.services.EmployeeService;
 import com.robovalet.services.StayService;
@@ -43,6 +44,9 @@ public class StayController {
 	
 	@Autowired
 	UserService uServ;
+	
+	@Autowired
+	ConversationService convoServ;
 	
 	private Boolean checkEmployee(HttpSession session) {
 		Long userId = (Long) session.getAttribute("id");
@@ -241,7 +245,18 @@ public class StayController {
 			return "redirect:/login";
 		}
 		Stay stay = sServ.findById(stayId);
+		String[] chat = {"No SMS Conversation data."};
+		Conversation conversation = stay.getConversation();
+		if (conversation != null) {
+			chat = conversation.getChatLog().split("\n");
+		}
+		//TESTING
+		for (String msg: chat) {
+			System.out.println(msg);
+		}
+		//END TESTING
 		String[] logs = stay.getLog().split("\n");
+		model.addAttribute("SMSlog", chat);
 		model.addAttribute("logs", logs);
 		model.addAttribute("stay", stay);
 		
