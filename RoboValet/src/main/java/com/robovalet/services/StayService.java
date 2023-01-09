@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.robovalet.models.Car;
+import com.robovalet.models.Conversation;
 import com.robovalet.models.Customer;
 import com.robovalet.models.Employee;
 import com.robovalet.models.Stay;
+import com.robovalet.models.Conversation.Stage;
+import com.robovalet.repositories.ConversationRepository;
 import com.robovalet.repositories.StayRepository;
 import com.robovalet.models.Stay.Status;
 
@@ -19,6 +22,12 @@ public class StayService {
 	
 	@Autowired
 	StayRepository sRepo;
+	
+	@Autowired
+	ConversationRepository convoRepo;
+	
+	@Autowired
+	ConversationService convoServ;
 	
 	public Stay findById(Long id) {
 		if(sRepo.findById(id).isPresent()) {
@@ -35,14 +44,24 @@ public class StayService {
 		return null;
 	}
 	
-	public void requestVehicle(Stay stay) {
-		stay.setStatus(Status.REQUESTED);
-		String logs = stay.getLog();
-		Date now = new Date();
-		stay.setStatusChange(now);
-		logs = logs + "\n" + now.toString() + ": Customer has requested the car via SMS.";
-		stay.setLog(logs);
+//	public void requestVehicle(Stay stay) {
+//		stay.setStatus(Status.REQUESTED);
+//		String logs = stay.getLog();
+//		Date now = new Date();
+//		stay.setStatusChange(now);
+//		logs = logs + "\n" + now.toString() + ": Customer has requested the car via SMS.";
+//		stay.setLog(logs);
+//		sRepo.save(stay);
+//	}
+	
+	public void closeStay(Stay stay) {
+		stay.setCheckOutTime(new Date());
+		stay.setStatus(Status.DELIVERED);
 		sRepo.save(stay);
+		ArrayList<Conversation> conversations = convoRepo.findByStayAndStageNot(stay, Stage.CLOSED);
+		for (int i = 0; i < conversations.size(); i++) {
+			convoServ.closeConversation(conversations.get(i));
+		}
 	}
 	
 	public void updateStatus(
@@ -58,7 +77,7 @@ public class StayService {
 		stay.setStatusChange(new Date());
 		stay.setStatus(status);
 		if (status == Status.DELIVERED) {
-			stay.setCheckOutTime(new Date());
+			this.closeStay(stay);
 		}
 		sRepo.save(stay);
 	}
@@ -88,6 +107,30 @@ public class StayService {
 	
 	public ArrayList<Stay> getActiveStaysBySMS(String SMS) {
 		return sRepo.findBySmsNumberAndStatusNotOrderByStatus(SMS, Status.DELIVERED);
+	}
+	
+	public void advanceStatus(Stay stay) {
+		switch (stay.getStatus()) {
+		case PARKING: stay.setStatus(Status.PARKED);
+			break;
+		case PARKED: stay.setStatus(Status.REQUESTED);
+			break;
+		case REQUESTED: stay.setStatus(Status.FETCHING);
+			break;
+		case FETCHING: stay.setStatus(Status.READY);
+			break;
+		case READY: this.closeStay(stay);
+			break;
+		}
+		sRepo.save(stay);
+	}
+	
+	public void changeStatus(Stay stay, Status status ) {
+		stay.setStatus(status);
+		sRepo.save(stay);
+		if (status == Status.DELIVERED) {
+			this.closeStay(stay);
+		}
 	}
 
 }

@@ -32,6 +32,7 @@ public class Conversation {
 		ASKEDSTAYVERIFICATION,
 		STAYVERIFIED,
 		ASKEDREADYVERIFICATION,
+		READYVERIFIED,
 		CLOSED
 	}
 	
@@ -63,6 +64,8 @@ public class Conversation {
 	
 	public Conversation(String sms, Stage stage) {
 		this.SMS = sms;
+		this.stage = stage;
+		this.chatLog = "";
 	}
 	
 	@PrePersist
