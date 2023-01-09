@@ -126,7 +126,7 @@ public class ConversationService {
 		response.put("advanceStatus", false);
 		ArrayList<Stay> possibleStays = sRepo.findBySmsNumberAndStatusNotOrderByStatus(conversation.getSMS(), Status.DELIVERED);
 		if (conversation.getMultipleStaysPossible() || possibleStays.size() > 1) {
-			ArrayList<String> options = null;
+			ArrayList<String> options = new ArrayList<String>();
 			for (Integer i=0; i < possibleStays.size(); i++) {
 				Integer idx = i+1;
 				String option = idx.toString();
